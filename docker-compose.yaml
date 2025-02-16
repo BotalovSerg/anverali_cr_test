@@ -5,3 +5,21 @@ services:
     env_file:
       - .env
     command: python3 main.py
+
+  db:
+    image: postgres:latest
+    env_file:
+      - .env_database
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
