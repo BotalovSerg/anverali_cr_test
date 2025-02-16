@@ -1,0 +1,7 @@
+services:
+  bot:
+    build:
+      context: app
+    env_file:
+      - .env
+    command: python3 main.py
