@@ -18,7 +18,8 @@ async def create_task(session: AsyncSession, text: str) -> None:
 async def get_all_tasks(session: AsyncSession) -> list[Task]:
     stmt = select(Task)
     result = await session.scalars(stmt)
-    return result.all()
+    list_task = result.all()
+    return list_task
 
 
 async def test_connection(session: AsyncSession):

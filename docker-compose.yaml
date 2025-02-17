@@ -5,6 +5,24 @@ services:
     env_file:
       - .env
     command: python3 main.py
+    networks:
+      - back-app
+    depends_on:
+      - db
+      - migrations
+
+  migrations:
+    build:
+      context: app
+    env_file:
+      - .env
+    command: alembic upgrade head
+    networks:
+      - back-app
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
 
   db:
     image: postgres:latest
@@ -20,6 +38,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - back-app
 
 volumes:
   postgres_data:
+
+networks:
+  back-app:

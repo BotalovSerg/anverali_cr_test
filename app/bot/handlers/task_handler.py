@@ -54,7 +54,7 @@ async def processing_cansel_task(callback: CallbackQuery, state: FSMContext) -> 
     await state.clear()
     await callback.answer("Отмена")
     await callback.message.answer(
-        text="Задача не сохранена.\n\n- команда для добавления задачи /add\n- команда для просмотра всех задач /tsk"
+        text="Задача не сохранена.\n\n- команда для добавления задачи /add\n- команда для просмотра всех задач /tsk",
     )
 
 
@@ -70,5 +70,9 @@ async def processing_edit_task(callback: CallbackQuery, state: FSMContext) -> No
 async def processing_get_all_tasks(message: Message, session: AsyncSession) -> None:
 
     list_tasks = await get_all_tasks(session)
-
-    await message.answer(text=get_tasks_to_string(list_tasks))
+    if list_tasks:
+        await message.answer(text=get_tasks_to_string(list_tasks))
+    else:
+        await message.answer(
+            text="Список задач пуст.\n\n- команда для добавления задачи /add\n- команда для просмотра всех задач /tsk",
+        )
