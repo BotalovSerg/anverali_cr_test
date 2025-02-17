@@ -9,4 +9,7 @@ class Task(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     text: Mapped[str]
-    time_create: Mapped[DateTime] = mapped_column(DateTime, default=func.now())
+    time_create: Mapped[DateTime] = mapped_column(
+        DateTime(timezone=True),
+        default=func.now(),
+    )

@@ -10,6 +10,7 @@ from bot.config import settings
 from bot.handlers import get_routers
 from bot.database.crud.tasks import test_connection
 from bot.middlewares import DataBaseSession
+from bot.keyboards.set_menu import set_main_menu
 
 
 logger = logging.getLogger(__name__)
@@ -32,6 +33,7 @@ async def main():
     dp.update.middleware(DataBaseSession(session_pool=session_maker))
     dp.include_routers(*get_routers())
 
+    await set_main_menu(bot)
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
